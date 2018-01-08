@@ -91,7 +91,7 @@ def primeNumbers(start, stop, method):
 # Method 1
 if wantMethod == (1,0) or wantMethod == (1,1):
     t1 = perf_counter()     # saves the starting time.
-    print("method1: Using odd numbers: ")
+    print("method1, Using odd numbers: ")
     numList = primeNumbers(start, stop, 1)      
 
     # prints the results.
@@ -106,7 +106,7 @@ if wantMethod == (1,0) or wantMethod == (1,1):
 
 # Method 2
 if wantMethod == (0,1) or wantMethod == (1,1):
-    print("\nmethod2: Using prime numbers")
+    print("\nmethod2, Using prime numbers: ")
     numList = primeNumbers(start, stop, 2)
     
     # prints the results.

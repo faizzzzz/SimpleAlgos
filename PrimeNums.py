@@ -76,8 +76,8 @@ def primeEffCheck(number, primeNums):
 def primeNumbers(start, stop, method):
     primeNums = []          # initializes the prime number array.
     for number in range(start, stop):
-        if method == 1:                             # Calls the method 1 prime check for each number in the range
-            prime = primeNumbersCheck(number)       # defined by the user.
+        if method == 1:                     # Calls the method 1 prime check for each number in the range
+            prime = primeCheck(number)      # defined by the user.
         
         if method ==2 :
             prime = primeEffCheck(number, primeNums)        # Calls the method 2 prime check for each number in the range
@@ -89,7 +89,7 @@ def primeNumbers(start, stop, method):
 
 
 # Method 1
-if wantMethod == (1,0) or (1,1):
+if wantMethod == (1,0) or wantMethod == (1,1):
     t1 = perf_counter()     # saves the starting time.
     print("method1: Using odd numbers: ")
     numList = primeNumbers(start, stop, 1)      
@@ -105,7 +105,7 @@ if wantMethod == (1,0) or (1,1):
     print(meth1T)   
 
 # Method 2
-if wantBoth == (0,1) or wantBoth == (1,1):
+if wantMethod == (0,1) or wantMethod == (1,1):
     print("\nmethod2: Using prime numbers")
     numList = primeNumbers(start, stop, 2)
     
@@ -121,7 +121,7 @@ if wantBoth == (0,1) or wantBoth == (1,1):
 
 # Evaluates which method is faster.
 # If time for method 1 is greater, it means that method 2 is faster and vice versa.
-if wantBoth(1,1):
+if wantMethod == (1,1):
     if meth1T > meth2T:
         print("Method 2 is ", (meth1T/meth2T), " times faster than method 1")
     if meth1T < meth2T:

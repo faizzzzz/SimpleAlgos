@@ -1,27 +1,22 @@
+######################################################################################################################################
+# Calculating prime numbers withinh a given range, using two different methods.
+# Method 1 divides each number in the range by an odd number to check for prime.
+# Method 2 stores the prime nums in an array and divides each number from that array. It only generates prime nums upto a number.
+######################################################################################################################################
+
 from time import perf_counter
 import math, numpy
 
-def oddEvenNums( start, stop, nums):
-    # Generate a list of odd numbers within a specified range(inclusive)
-    numArray = []
-    temp = start
+wantPrint = False   # print out the results or not. (Not recommended for large ranges.)
+wantMethod = (1,1)  # this is to indicate which method to use. First argument is for method 1 and the second argument is for method 2.
+start = 1           # lower limit of prime numbers.
+stop = 500000       # upper limit of prime numbers.
 
-    if nums.lower() == "odd":
-        if temp%2 == 0:
-            temp += 1
 
-    if nums.lower() == "even":
-        if temp%2 == 1:
-            temp += 1
 
-    numArray.append(temp)
+# Method 1: Using odd numbers.
 
-    while temp < stop-1:
-        temp += 2
-        numArray.append(temp)
-
-    return numArray
-
+# This function checks for each number that is passed into it.
 def primeCheck(number):
     isPrime = False
 
@@ -53,93 +48,79 @@ def primeCheck(number):
         # print(number, " is a prime number")
         return number
 
-def primeNumbersEffCheck(number, primeNums):
-    isPrime = False
-    # primeNums = numpy.ones((1), dtype=int) * 2
-    # primeNums = numpy.delete(primeNums, (0), axis=0)
-    if number == 2 or number == 3 or number == 5:
-        # primeNums = numpy.append(primeNums, number)
-        return number
+# Method 2: Using prime numbers.
+
+# This function check each number that is passed into it. It does by dividing the number by the prime numbers in the 'primeNums' array.
+def primeEffCheck(number, primeNums):
+    isPrime = False         # Checks to see if the prime number is false or not.
+    if number == 2 or number == 3 or number == 5:   # as these are known prime numbers, they are returned back and appended to the
+        return number                               # primeNums array.
 
     else:
         for divider in primeNums:
             if divider >= math.ceil(math.sqrt(number) + 1):
-                break
+                break       # If the divider is greater than the square root of the number(divisor) then the for loop ends.
 
             # print('The number is: ', number, " and The divider is: ", divider)
-            remainder = number % divider
+            remainder = number % divider    # remainder is calculated to check for prime.
             if remainder == 0:
-                isPrime = False
+                isPrime = False             # If the remainder is 0, the number is not a prime number, and the for loop ends.
                 break
 
             else:
-                isPrime = True
-
-
+                isPrime = True              
 
     if isPrime == True:
-       # primeNums = numpy.append(primeNums, number)
-        return number
+        return number       # If the number is prime, it is returned.
 
-# return primeNums
-
-def primeNumbersEff(start, stop):
-    primeNums = []
+def primeNumbers(start, stop, method):
+    primeNums = []          # initializes the prime number array.
     for number in range(start, stop):
-
-        prime = primeNumbersEffCheck(number, primeNums)
-
-        if prime is not None:
-            primeNums.append(prime)
-
+        if method == 1:                             # Calls the method 1 prime check for each number in the range
+            prime = primeNumbersCheck(number)       # defined by the user.
+        
+        if method ==2 :
+            prime = primeEffCheck(number, primeNums)        # Calls the method 2 prime check for each number in the range
+                                                            # defined by the user.
+        if prime is not None:                               
+            primeNums.append(prime)     # The prime check methods might return a None value. If the value is not None, then it appends it
+                                        # to the prime numbers array.
     return primeNums
 
-
-
-def primeNumbers(start, stop):
-    primeNums = []
-    for number in range(start, stop):
-
-        prime = primeCheck(number)
-
-        if prime is not None:
-            primeNums.append(prime)
-
-    return primeNums
-
-
-
-# numList = oddEvenNums(3, 11, nums="even")
-
-wantPrint = False
-wantBoth = True
-start = 1
-stop = 500000
 
 # Method 1
-print("method1: ")
-t1 = perf_counter()
-numList = primeNumbersEff(start, stop)
-if wantPrint:
-    for each in numList:
-       print(each)
-print(len(numList))
-t2 = perf_counter()
-meth1T = t2-t1
-print(meth1T)
+if wantMethod == (1,0) or (1,1):
+    t1 = perf_counter()     # saves the starting time.
+    print("method1: Using odd numbers: ")
+    numList = primeNumbers(start, stop, 1)      
 
-# Method 2
-if wantBoth:
-    print("\nmethod2: ")
-    numList = primeNumbers(start, stop)
+    # prints the results.
     if wantPrint:
         for each in numList:
            print(each)
-    print(len(numList))
-    t3 = perf_counter()
-    meth2T = t3-t2
+
+    print(len(numList))     # prints the number of prime numbers for comparison.
+    t2 = perf_counter()     # saves the stopping time for method 1 and the starting time for method 2.
+    meth1T = t2-t1          # subtracts both times to find the time taken for evaluation.
+    print(meth1T)   
+
+# Method 2
+if wantBoth:
+    print("\nmethod2: Using prime numbers")
+    numList = primeNumbers(start, stop, 2)
+    
+    # prints the results.
+    if wantPrint:
+        for each in numList:
+           print(each)
+    
+    print(len(numList)) # pritns the number of prime numbers in the array for comparison.
+    t3 = perf_counter() # saves the stopping time for method 2.
+    meth2T = t3-t2      # subtracts both times to find the time taken for evaluation.
     print(meth2T, "\n")
 
+    # Evaluates which method is faster.
+    # If time for method 1 is greater, it means that method 2 is faster and vice versa.
     if meth1T > meth2T:
         print("Method 2 is ", (meth1T/meth2T), " times faster than method 1")
     if meth1T < meth2T:

@@ -105,7 +105,7 @@ if wantMethod == (1,0) or (1,1):
     print(meth1T)   
 
 # Method 2
-if wantBoth:
+if wantBoth == (0,1) or wantBoth == (1,1):
     print("\nmethod2: Using prime numbers")
     numList = primeNumbers(start, stop, 2)
     
@@ -119,8 +119,9 @@ if wantBoth:
     meth2T = t3-t2      # subtracts both times to find the time taken for evaluation.
     print(meth2T, "\n")
 
-    # Evaluates which method is faster.
-    # If time for method 1 is greater, it means that method 2 is faster and vice versa.
+# Evaluates which method is faster.
+# If time for method 1 is greater, it means that method 2 is faster and vice versa.
+if wantBoth(1,1):
     if meth1T > meth2T:
         print("Method 2 is ", (meth1T/meth2T), " times faster than method 1")
     if meth1T < meth2T:
